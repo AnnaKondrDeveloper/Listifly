@@ -1,8 +1,10 @@
+import { FilterValuesType } from "./App"
 
 type PropsType = {
 	title: string
 	tasks: Array<TaskType>
 	removeTask: (id: number) => void
+	changeFilter: (value: FilterValuesType) => void
 }
 
 export type TaskType ={
@@ -10,7 +12,6 @@ export type TaskType ={
 	name: string
 	isDone: boolean
 }
-
 
 export function ToDolist(props:PropsType) {
 	return (
@@ -29,9 +30,9 @@ export function ToDolist(props:PropsType) {
 				}
 			</ul>
 			<div>
-				<button className="list_button">All</button>
-				<button className="list_button">Active</button>
-				<button className="list_button">Completed</button>
+				<button className="list_button" onClick={() => {props.changeFilter("all")}}>All</button>
+				<button className="list_button" onClick={() => {props.changeFilter("active")}}>Active</button>
+				<button className="list_button" onClick={() => {props.changeFilter("completed")}}>Completed</button>
 			</div>
 		</div>
 	)
