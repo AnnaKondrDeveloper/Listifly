@@ -55,6 +55,17 @@ function App() {
 			forToDoTasks = tasks.filter(t => t.isDone === true)
 		}
 
+	function changeStatus(taskId: string, isDone: boolean) {
+
+		let foundedTask = tasks.find( t => t.id === taskId )
+		if( foundedTask) {
+			foundedTask.isDone = isDone
+		}
+    //Create copy for rerender App
+		const copyTasks = [ ...tasks ]
+		setTasks(copyTasks);
+	}
+
 
   return (
     <div className="App">
@@ -64,6 +75,7 @@ function App() {
 			removeTask = {removeTask}
 			changeFilter = {changeFilter}
 			addTask = {addTask}
+			changeStatus = {changeStatus}
 			/>
 			{/* <ToDolist title = "Books" tasks={tasks2}/>
 			<ToDolist title = "Movie" tasks={tasks3}/> */}

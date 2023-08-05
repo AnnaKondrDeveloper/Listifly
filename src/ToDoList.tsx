@@ -7,6 +7,7 @@ type PropsType = {
 	removeTask: (id: string) => void
 	changeFilter: (value: FilterValuesType) => void
 	addTask: (newTaskName: string) => void
+	changeStatus: (taskId: string, isDone: boolean ) => void
 }
 
 export type TaskType ={
@@ -34,7 +35,6 @@ export function ToDolist(props:PropsType) {
 					}
 				}}
 				/>
-				
 			<button className="list_button_plus" onClick = { () => {
 				props.addTask(newTaskName);
 				setNewTaskName("");
@@ -44,7 +44,11 @@ export function ToDolist(props:PropsType) {
 			<ul> {
 					props.tasks.map( task => {
 						return <li key={task.id} className="list_item">
-							<input type="checkbox" checked = {task.isDone}/>{task.name}
+							<input type="checkbox"
+							onChange = { (e) => {
+								props.changeStatus(task.id, e.currentTarget.checked)}}
+							checked = {task.isDone}
+							 />{task.name}
 							<button className="list_item_button" onClick={() => {props.removeTask(task.id)}}>x</button> </li>
 					})
 				}
