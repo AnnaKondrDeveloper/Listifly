@@ -8,6 +8,7 @@ type PropsType = {
 	changeFilter: (value: FilterValuesType) => void
 	addTask: (newTaskName: string) => void
 	changeStatus: (taskId: string, isDone: boolean ) => void
+	filter: FilterValuesType
 }
 
 export type TaskType ={
@@ -18,17 +19,19 @@ export type TaskType ={
 
 export function ToDolist(props:PropsType) {
 
-	const [newTaskName, setNewTaskName] = useState("")
+	const [newTaskName, setNewTaskName] = useState("");
+	const [error, setError] = useState<string | null>(null)
 
 	return (
 		<div className="list_items">
 		<h2 className="list_title">{props.title}</h2>
 		<div>
-			<input type="text" value = {newTaskName} 
+			<input className={error ? "error" : ""} type="text" value = {newTaskName} 
 			onChange = {(e) => {
 					setNewTaskName(e.currentTarget.value);
 				}}
 				onKeyPress = {(e) => {
+					setError(null)
 					if (e.charCode === 13) {
 						props.addTask(newTaskName);
 						setNewTaskName("");
@@ -36,14 +39,20 @@ export function ToDolist(props:PropsType) {
 				}}
 				/>
 			<button className="list_button_plus" onClick = { () => {
+				//Check empty input and trim spaces
+				if ( newTaskName.trim() === "") {
+					setError("Field is required")
+					return
+				}
 				props.addTask(newTaskName);
 				setNewTaskName("");
 					}
 				}>+</button>
+				<div className="error_text">{error}</div>
 		</div>
 			<ul> {
 					props.tasks.map( task => {
-						return <li key={task.id} className="list_item">
+						return <li key={task.id} className={`list_item ${ task.isDone && "list_item_done"}`}>
 							<input type="checkbox"
 							onChange = { (e) => {
 								props.changeStatus(task.id, e.currentTarget.checked)}}
@@ -53,10 +62,10 @@ export function ToDolist(props:PropsType) {
 					})
 				}
 			</ul>
-			<div>
-				<button className="list_button" onClick={() => {props.changeFilter("all")}}>All</button>
-				<button className="list_button" onClick={() => {props.changeFilter("active")}}>Active</button>
-				<button className="list_button" onClick={() => {props.changeFilter("completed")}}>Completed</button>
+			<div className = "list_buttons">
+				<button className= {`list_button ${ props.filter === "all" ? "list_button_active" : ""}`} onClick={() => {props.changeFilter("all")}}>All</button>
+				<button className={`list_button ${ props.filter === "active" ? "list_button_active" : ""}`}  onClick={() => {props.changeFilter("active")}}>Active</button>
+				<button className={`list_button ${ props.filter === "completed" ? "list_button_active" : ""}`}  onClick={() => {props.changeFilter("completed")}}>Completed</button>
 			</div>
 		</div>
 	)
