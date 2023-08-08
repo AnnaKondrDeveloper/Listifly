@@ -3,13 +3,14 @@ import { FilterValuesType } from "./App";
 
 type PropsType = {
   id: string
-  title: string;
-  tasks: Array<TaskType>;
-  removeTask: (id: string) => void;
-  changeFilter: (value: FilterValuesType, id: string) => void;
-  addTask: (newTaskName: string) => void;
-  changeStatus: (taskId: string, isDone: boolean) => void;
-  filter: FilterValuesType;
+  title: string
+  tasks: Array<TaskType>
+  removeTask: (id: string, listId: string) => void
+  changeFilter: (value: FilterValuesType, id: string) => void
+  addTask: (newTaskName: string, listId: string) => void
+  changeStatus: (taskId: string, isDone: boolean, listId: string) => void
+  filter: FilterValuesType
+  removeList: (listId: string) => void
 };
 
 export type TaskType = {
@@ -24,6 +25,7 @@ export function ToDolist(props: PropsType) {
 
   return (
     <div className="list_items">
+		<button className="list_button_delete" onClick={() => props.removeList(props.id)}>Delete list</button>
       <h2 className="list_title">{props.title}</h2>
       <div>
         <input
@@ -36,7 +38,7 @@ export function ToDolist(props: PropsType) {
           onKeyPress={(e) => {
             setError(null);
             if (e.charCode === 13) {
-              props.addTask(newTaskName);
+              props.addTask(newTaskName, props.id);
               setNewTaskName("");
             }
           }}
@@ -49,7 +51,7 @@ export function ToDolist(props: PropsType) {
               setError("Field is required");
               return;
             }
-            props.addTask(newTaskName);
+            props.addTask(newTaskName, props.id);
             setNewTaskName("");
           }}
         >
@@ -68,7 +70,7 @@ export function ToDolist(props: PropsType) {
               <input
                 type="checkbox"
                 onChange={(e) => {
-                  props.changeStatus(task.id, e.currentTarget.checked);
+                  props.changeStatus(task.id, e.currentTarget.checked, props.id);
                 }}
                 checked={task.isDone}
               />{" "}
@@ -76,7 +78,7 @@ export function ToDolist(props: PropsType) {
               <button
                 className="list_item_button"
                 onClick={() => {
-                  props.removeTask(task.id);
+                  props.removeTask(task.id, props.id);
                 }}
               >
                 x

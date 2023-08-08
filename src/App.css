@@ -99,6 +99,7 @@ h1, h2, h3, h4, h5, h6 {
 	font-size: 30px;
 	text-align: center;
 	margin-bottom: 15px;
+	margin-top: 15px;
 }
 
 .list_item {
@@ -147,6 +148,15 @@ h1, h2, h3, h4, h5, h6 {
 	margin-left: 15px;
 	font-weight: bold;
 	font-size: 20px;
+}
+
+.list_button_delete {
+	margin-top: 15px;
+	background-color: white;
+	height: 35px;
+	border: 1px solid black;
+	padding: 5px;
+	text-transform: uppercase;
 }
 
 .error {
