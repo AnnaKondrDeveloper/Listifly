@@ -3,6 +3,7 @@ import { useState } from 'react';
 import './App.css';
 import { ToDolist } from './ToDoList';
 import { v1 } from 'uuid';
+import { AddItemForm } from './AddItemForm';
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -34,12 +35,15 @@ function App() {
 		[listId2] : [
 			{ id: v1(), name: "Fahrenheit 451", isDone: true },
 			{ id: v1(),	name: "To Kill a Mockingbird", isDone: true	},
-			{ id: v1(), name: "1984", isDone: false}
+			{ id: v1(), name: "1984", isDone: false},
+			{ id: v1(), name: "The Great Gatsby", isDone: false}
+			
 			],
 		[listId3] : [
 			{ id: v1(), name: "The Godfather ", isDone: true },
 			{ id: v1(),	name: "Raiders of the Lost Ark", isDone: true	},
-			{ id: v1(), name: "Goodfellas", isDone: false}
+			{ id: v1(), name: "Goodfellas", isDone: false},
+			{ id: v1(), name: "The Fifth Element", isDone: false}
 			]
 	}
 
@@ -50,7 +54,8 @@ function App() {
 
 	function removeList(listId: string) {
 		let filteredLists = lists.filter( t => t.id !== listId);
-		setLists(filteredLists)
+		setLists(filteredLists);
+		delete tasksObj[listId];
 	};
 
 	function removeTask(id: string, listId: string) {
@@ -93,6 +98,9 @@ function App() {
 
   return (
     <div className="App">
+
+		<AddItemForm  addItem={addTask}/>
+
 		{lists.map( (td) => {
 
 		let forToDoTasks = tasksObj[td.id];

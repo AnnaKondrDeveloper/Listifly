@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { AddItemForm } from "./AddItemForm";
 import { FilterValuesType } from "./App";
 
 type PropsType = {
@@ -20,44 +20,18 @@ export type TaskType = {
 };
 
 export function ToDolist(props: PropsType) {
-  const [newTaskName, setNewTaskName] = useState("");
-  const [error, setError] = useState<string | null>(null);
+
+
+function addItem (newTaskName: string) {
+	props.addTask(newTaskName, props.id)
+}
 
   return (
     <div className="list_items">
 		<button className="list_button_delete" onClick={() => props.removeList(props.id)}>Delete list</button>
       <h2 className="list_title">{props.title}</h2>
-      <div>
-        <input
-          className={error ? "error" : ""}
-          type="text"
-          value={newTaskName}
-          onChange={(e) => {
-            setNewTaskName(e.currentTarget.value);
-          }}
-          onKeyPress={(e) => {
-            setError(null);
-            if (e.charCode === 13) {
-              props.addTask(newTaskName, props.id);
-              setNewTaskName("");
-            }
-          }}
-        />
-        <button
-          className="list_button_plus"
-          onClick={() => {
-            //Check empty input and trim spaces
-            if (newTaskName.trim() === "") {
-              setError("Field is required");
-              return;
-            }
-            props.addTask(newTaskName, props.id);
-            setNewTaskName("");
-          }}
-        >
-          +
-        </button>
-        <div className="error_text">{error}</div>
+      <div className="list_input">
+			<AddItemForm addItem={addItem}/>
       </div>
       <ul>
         {" "}
@@ -122,3 +96,5 @@ export function ToDolist(props: PropsType) {
     </div>
   );
 }
+
+
