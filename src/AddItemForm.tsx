@@ -2,8 +2,7 @@ import { useState } from "react";
 
 
 type AddItemFormType = {
-	addTask: (newTaskName: string) => void
-	id: string
+	addItem: (newItemName: string) => void
 }
 
 export function AddItemForm (props: AddItemFormType) {
@@ -25,7 +24,7 @@ export function AddItemForm (props: AddItemFormType) {
 	  onKeyPress={(e) => {
 		 setError(null);
 		 if (e.charCode === 13) {
-			props.addTask(newItemName);
+			props.addItem(newItemName);
 			setNewTaskName("");
 		 }
 	  }}
@@ -38,7 +37,7 @@ export function AddItemForm (props: AddItemFormType) {
 			setError("Field is required");
 			return;
 		 }
-		 props.addTask(newItemName);
+		 props.addItem(newItemName);
 		 setNewTaskName("");
 	  }}
 	>

@@ -7,7 +7,7 @@ type PropsType = {
   tasks: Array<TaskType>
   removeTask: (id: string, listId: string) => void
   changeFilter: (value: FilterValuesType, id: string) => void
-  addTask: (newTaskName: string, listId: string) => void
+  addTask: (newItemName: string, listId: string) => void
   changeStatus: (taskId: string, isDone: boolean, listId: string) => void
   filter: FilterValuesType
   removeList: (listId: string) => void
@@ -22,16 +22,17 @@ export type TaskType = {
 export function ToDolist(props: PropsType) {
 
 
-function addItem (newTaskName: string) {
-	props.addTask(newTaskName, props.id)
-}
+	//Wrapper for addTask to add id
+	function addTask(newItemName: string) {
+		props.addTask(newItemName, props.id)
+	}
 
   return (
     <div className="list_items">
 		<button className="list_button_delete" onClick={() => props.removeList(props.id)}>Delete list</button>
       <h2 className="list_title">{props.title}</h2>
       <div className="list_input">
-			<AddItemForm addItem={addItem}/>
+			<AddItemForm addItem={addTask}/>
       </div>
       <ul>
         {" "}

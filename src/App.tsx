@@ -96,10 +96,24 @@ function App() {
 		}
 	}
 
+	function addList(newItemName: string) {
+		let newList: ToDoListsType = {
+			id: v1(),
+			title: newItemName,
+			filter: "all"
+		};
+
+		setLists([newList, ...lists]);
+		
+		//Add empty tasks in array
+		setTasks( {...tasksObj,	[newList.id]: []})
+
+	}
+
   return (
     <div className="App">
 
-		<AddItemForm  addItem={addTask}/>
+		<AddItemForm addItem={addList}/>
 
 		{lists.map( (td) => {
 
