@@ -104,7 +104,6 @@ function App() {
 		};
 
 		setLists([newList, ...lists]);
-		
 		//Add empty tasks in array
 		setTasks( {...tasksObj,	[newList.id]: []})
 

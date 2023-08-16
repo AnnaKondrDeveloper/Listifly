@@ -1,5 +1,6 @@
 import { AddItemForm } from "./AddItemForm";
 import { FilterValuesType } from "./App";
+import { EditableInput } from "./EditableInput";
 
 type PropsType = {
   id: string
@@ -48,8 +49,8 @@ export function ToDolist(props: PropsType) {
                   props.changeStatus(task.id, e.currentTarget.checked, props.id);
                 }}
                 checked={task.isDone}
-              />{" "}
-              {task.name}
+              /> 
+					<EditableInput name = {task.name}/>
               <button
                 className="list_item_button"
                 onClick={() => {
@@ -97,5 +98,8 @@ export function ToDolist(props: PropsType) {
     </div>
   );
 }
+
+
+
 
 
