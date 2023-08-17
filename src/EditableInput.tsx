@@ -3,6 +3,7 @@ import { useState } from "react"
 
 type EditableInputPropsType = {
 	name: string
+	onChangeNameHandler: (newValue: string) => void;
 }
 
 export function EditableInput (props: EditableInputPropsType) {
@@ -17,6 +18,7 @@ export function EditableInput (props: EditableInputPropsType) {
 
 	function activateViewMode () {
 		setEditMode(false);
+		props.onChangeNameHandler(text);
 	}
 	
 	return (

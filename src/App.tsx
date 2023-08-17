@@ -96,6 +96,25 @@ function App() {
 		}
 	}
 
+	function changeName(taskId: string, newValue: string, listId: string) {
+		let list = tasksObj[listId];
+
+		let foundedTask = list.find( t => t.id === taskId )
+		if( foundedTask) {
+			foundedTask.name = newValue
+			setTasks({ ...tasksObj});
+		}
+	}
+
+	function changeListTitle (newValue: string, listId: string) {
+		let list = lists.find( l => l.id === listId);
+		if ( list ) {
+			list.title = newValue;
+			const newLists = [ ...lists];
+			setLists(newLists)
+		}
+	}
+
 	function addList(newItemName: string) {
 		let newList: ToDoListsType = {
 			id: v1(),
@@ -134,6 +153,8 @@ function App() {
 					changeFilter = {changeFilter}
 					addTask = {addTask}
 					changeStatus = {changeStatus}
+					changeName = {changeName}
+					changeListTitle = {changeListTitle}
 					filter = {td.filter}
 					removeList ={removeList}
 					/>

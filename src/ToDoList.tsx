@@ -10,6 +10,8 @@ type PropsType = {
   changeFilter: (value: FilterValuesType, id: string) => void
   addTask: (newItemName: string, listId: string) => void
   changeStatus: (taskId: string, isDone: boolean, listId: string) => void
+  changeName: (taskId: string, newValue: string, listId: string) => void
+  changeListTitle: (newValue: string, listId: string) => void
   filter: FilterValuesType
   removeList: (listId: string) => void
 };
@@ -28,16 +30,27 @@ export function ToDolist(props: PropsType) {
 		props.addTask(newItemName, props.id)
 	}
 
+	function changeListTitleHandle(newValue: string) {
+		props.changeListTitle(newValue, props.id)
+	}
+
   return (
     <div className="list_items">
 		<button className="list_button_delete" onClick={() => props.removeList(props.id)}>Delete list</button>
-      <h2 className="list_title">{props.title}</h2>
+      <h2 className="list_title">
+		<EditableInput name={props.title} onChangeNameHandler = {changeListTitleHandle}/> 
+			</h2>
       <div className="list_input">
 			<AddItemForm addItem={addTask}/>
       </div>
       <ul>
         {" "}
         {props.tasks.map((task) => {
+
+			function onChangeNameHandler (newValue: string) {
+				props.changeName(task.id, newValue, props.id)
+			}
+
           return (
             <li
               key={task.id}
@@ -50,7 +63,7 @@ export function ToDolist(props: PropsType) {
                 }}
                 checked={task.isDone}
               /> 
-					<EditableInput name = {task.name}/>
+					<EditableInput name = {task.name} onChangeNameHandler={onChangeNameHandler}/>
               <button
                 className="list_item_button"
                 onClick={() => {
