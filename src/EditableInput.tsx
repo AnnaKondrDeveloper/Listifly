@@ -1,3 +1,4 @@
+import { TextField } from "@mui/material";
 import { useState } from "react"
 
 
@@ -23,8 +24,17 @@ export function EditableInput (props: EditableInputPropsType) {
 	
 	return (
 		editMode 
-		? <input value={text} autoFocus onBlur={() => activateViewMode()} onChange={(e) => {setText(e.currentTarget.value)}}></input> 
+
+		? <TextField 
+				id="standard-basic" 
+				variant="standard" 
+				value={text} 
+				autoFocus 
+				onBlur={() => activateViewMode()} 
+				onChange={(e) => {setText(e.currentTarget.value)}}
+				/>
 		: <span onDoubleClick={() => {activateEditMode()}}> {props.name}</span>
 	)
+	
 
 }

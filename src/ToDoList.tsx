@@ -1,6 +1,9 @@
+import Button from "@mui/material/Button";
 import { AddItemForm } from "./AddItemForm";
 import { FilterValuesType } from "./App";
 import { EditableInput } from "./EditableInput";
+import { Checkbox, IconButton } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type PropsType = {
   id: string
@@ -36,18 +39,22 @@ export function ToDolist(props: PropsType) {
 
   return (
     <div className="list_items">
-		<button className="list_button_delete" onClick={() => props.removeList(props.id)}>Delete list</button>
-      <h2 className="list_title">
-		<EditableInput name={props.title} onChangeNameHandler = {changeListTitleHandle}/> 
-			</h2>
-      <div className="list_input">
+		<h2>
+			<EditableInput name={props.title} onChangeNameHandler = {changeListTitleHandle}/> 
+			<IconButton 
+				aria-label="delete" 
+				size="large" 
+				onClick={() => props.removeList(props.id)}>
+				<DeleteIcon fontSize="inherit" />
+			</IconButton>
+		</h2>
+		<div className="list_input">
 			<AddItemForm addItem={addTask}/>
-      </div>
-      <ul>
-        {" "}
-        {props.tasks.map((task) => {
+		</div>
 
-			function onChangeNameHandler (newValue: string) {
+      <ul>
+        {props.tasks.map((task) => {
+				function onChangeNameHandler (newValue: string) {
 				props.changeName(task.id, newValue, props.id)
 			}
 
@@ -56,57 +63,44 @@ export function ToDolist(props: PropsType) {
               key={task.id}
               className={`list_item ${task.isDone && "list_item_done"}`}
             >
-              <input
-                type="checkbox"
-                onChange={(e) => {
-                  props.changeStatus(task.id, e.currentTarget.checked, props.id);
-                }}
-                checked={task.isDone}
-              /> 
+					<Checkbox
+						onChange={(e) => {
+						props.changeStatus(task.id, e.currentTarget.checked, props.id);
+						}}
+						checked={task.isDone}
+					 />
 					<EditableInput name = {task.name} onChangeNameHandler={onChangeNameHandler}/>
-              <button
-                className="list_item_button"
-                onClick={() => {
-                  props.removeTask(task.id, props.id);
-                }}
-              >
-                x
-              </button>{" "}
+					<IconButton aria-label="delete"                 
+						onClick={() => {props.removeTask(task.id, props.id)}}>
+						<DeleteIcon />
+					</IconButton>
             </li>
           );
         })}
       </ul>
-      <div className="list_buttons">
-        <button
-          className={`list_button ${
-            props.filter === "all" ? "list_button_active" : ""
-          }`}
+      <div className="list_buttons" style={{ margin: "10px" }}>
+        <Button variant={props.filter === "all" ? "contained" : "text"}
           onClick={() => {
             props.changeFilter("all", props.id);
           }}
+			 
         >
           All
-        </button>
-        <button
-          className={`list_button ${
-            props.filter === "active" ? "list_button_active" : ""
-          }`}
+        </Button>
+        <Button variant={props.filter === "active" ? "contained" : "text"}
           onClick={() => {
             props.changeFilter("active", props.id);
           }}
         >
           Active
-        </button>
-        <button
-          className={`list_button ${
-            props.filter === "completed" ? "list_button_active" : ""
-          }`}
+        </Button>
+        <Button variant ={props.filter === "completed" ? "contained" : "text"}
           onClick={() => {
             props.changeFilter("completed", props.id);
           }}
         >
           Completed
-        </button>
+        </Button>
       </div>
     </div>
   );

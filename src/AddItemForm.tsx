@@ -1,4 +1,6 @@
+import { SvgIcon, TextField } from "@mui/material";
 import { useState } from "react";
+import AddIcon from '@mui/icons-material/Add';
 
 
 type AddItemFormType = {
@@ -13,38 +15,37 @@ export function AddItemForm (props: AddItemFormType) {
 
 	return (
 		<div>
-	<div className="list_input">
-	<input
-	  className={error ? "error" : ""}
-	  type="text"
-	  value={newItemName}
-	  onChange={(e) => {
-		 setNewTaskName(e.currentTarget.value);
-	  }}
-	  onKeyPress={(e) => {
-		 setError(null);
-		 if (e.charCode === 13) {
-			props.addItem(newItemName);
-			setNewTaskName("");
-		 }
-	  }}
-	/>
-	<button
-	  className="list_button_plus"
-	  onClick={() => {
-		 //Check empty input and trim spaces
-		 if (newItemName.trim() === "") {
-			setError("Field is required");
-			return;
-		 }
-		 props.addItem(newItemName);
-		 setNewTaskName("");
-	  }}
-	>
-	  +
-	</button>
- </div>
- <div className="error_text">{error}</div>
- </div>
+			<div className="list_input">
+				<TextField variant="outlined" 
+					error = {!!error}
+					helperText={error}
+					type="text"
+					value={newItemName}
+					onChange={(e) => {
+						setNewTaskName(e.currentTarget.value);
+					}}
+					onKeyPress={(e) => {
+						setError(null);
+						if (e.charCode === 13) {
+							props.addItem(newItemName);
+							setNewTaskName("");
+						}
+					}}/>
+				<SvgIcon
+					color="primary"
+					component = {AddIcon}
+					sx={{ fontSize: 40 }}
+					onClick={() => {
+						//Check empty input and trim spaces
+						if (newItemName.trim() === "") {
+						setError("Field is required");
+						return;
+						}
+						props.addItem(newItemName);
+						setNewTaskName("");
+					}}
+				/>
+			</div>
+ 		</div>
 	)
 }

@@ -4,6 +4,7 @@ import './App.css';
 import { ToDolist } from './ToDoList';
 import { v1 } from 'uuid';
 import { AddItemForm } from './AddItemForm';
+import { Grid, Paper } from '@mui/material';
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -110,8 +111,7 @@ function App() {
 		let list = lists.find( l => l.id === listId);
 		if ( list ) {
 			list.title = newValue;
-			const newLists = [ ...lists];
-			setLists(newLists)
+			setLists([ ...lists])
 		}
 	}
 
@@ -129,38 +129,46 @@ function App() {
 	}
 
   return (
-    <div className="App">
+    <div className="App" style={{ padding: "20px"}}>
+		<div>Add NEW list</div>
+		<Grid container style={{ padding: "20px"}}>
+			<AddItemForm addItem={addList}/>
+		</Grid > 
+		<Grid container spacing={5} style={{ padding: "20px"}}>
+					{lists.map( (td) => {
 
-		<AddItemForm addItem={addList}/>
+				let forToDoTasks = tasksObj[td.id];
 
-		{lists.map( (td) => {
+				if (td.filter === "active") {
+					forToDoTasks = forToDoTasks.filter(t => t.isDone === false)
+				}
+				if (td.filter === "completed") {
+					forToDoTasks = forToDoTasks.filter(t => t.isDone === true)
+				}
+					return (
+						<Grid item>
+							<Paper style={{ padding: "20px"}} elevation={6} >
+								<ToDolist 
+								key = { td.id }
+								id = { td.id }
+								title = {td.title} 
+								tasks={forToDoTasks}
+								removeTask = {removeTask}
+								changeFilter = {changeFilter}
+								addTask = {addTask}
+								changeStatus = {changeStatus}
+								changeName = {changeName}
+								changeListTitle = {changeListTitle}
+								filter = {td.filter}
+								removeList ={removeList}
+								/>
+							</Paper>
+						</Grid>
+						)
+					})
+				}
+		</Grid>
 
-		let forToDoTasks = tasksObj[td.id];
-
-		if (td.filter === "active") {
-			forToDoTasks = forToDoTasks.filter(t => t.isDone === false)
-		}
-		if (td.filter === "completed") {
-			forToDoTasks = forToDoTasks.filter(t => t.isDone === true)
-		}
-			return (
-				<ToDolist 
-					key = { td.id }
-					id = { td.id }
-					title = {td.title} 
-					tasks={forToDoTasks}
-					removeTask = {removeTask}
-					changeFilter = {changeFilter}
-					addTask = {addTask}
-					changeStatus = {changeStatus}
-					changeName = {changeName}
-					changeListTitle = {changeListTitle}
-					filter = {td.filter}
-					removeList ={removeList}
-					/>
-				)
-			})
-		}
     </div>
   );
 }
